@@ -5,8 +5,24 @@ import shareVideo from "../assets/share.mp4";
 import logo from "../assets/logowhite.png";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { GoogleLogin, GoogleLogout } from "@react-oauth/google";
+import jwt_decode from 'jwt-decode'
+import { client } from '../client'
 
 const Login = () => {
+  const navigate = useNavigate()
+  const responseGoogle=(response)=>{
+    const decoded = jwt_decode(response.credential)
+    console.log(decoded)
+    const { name, picture, sub } = decoded
+    const doc = {
+      _id: sub,
+      _type: 'user',
+      userName: name,
+      image: picture,
+    }
+
+    client.createIfNotExists(doc).then(()=>navigate('/', { replace: true }))
+  }
   return (
     <div className="flex justify-start items-center flex-col h-screen">
       <div className="relative w-full h-full">
@@ -26,8 +42,9 @@ const Login = () => {
         </div>
         <div className="shadow-2xl">
           <GoogleLogin
-            onSuccess={(response) => console.log(response)}
-            onError={() => console.log("Error")}
+            clientId={`${process.env.REACT_APP_GOOGLE_API_TOKEN}`}
+            // onSuccess={(response) => console.log(response)}
+            // onError={() => console.log("Error")}
             render={(renderProps) => (
               <button
                 type="button"
@@ -39,6 +56,9 @@ const Login = () => {
                 Sign in with google
               </button>
             )}
+            onSuccess={responseGoogle}
+            onFailure={responseGoogle}
+            cookiePolicy='single_host_origin'
           />
         </div>
       </div>
