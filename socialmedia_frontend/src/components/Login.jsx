@@ -20,8 +20,9 @@ const Login = () => {
       userName: name,
       image: picture,
     }
-
-    client.createIfNotExists(doc).then(()=>navigate('/', { replace: true }))
+    localStorage.setItem('user', JSON.stringify(doc))
+    navigate('/', { replace: true });
+    // client.createIfNotExists(doc).then(()=>navigate('/', { replace: true }))
   }
   return (
     <div className="flex justify-start items-center flex-col h-screen">
