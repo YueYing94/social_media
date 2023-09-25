@@ -10,7 +10,13 @@ export default {
     {name: 'image', title: 'Image', type: 'image', options: {hotspot: true}},
     {name: 'userId', title: 'UserId', type: 'string'},
     {name: 'postedBy', title: 'PostedBy', type: 'postedBy'},
-    {name: 'save', title: 'Save', type: 'array', of: [{type: 'save'}]},
+    // {name: 'save', title: 'Save', type: 'array', of: [{type: 'save'}]},
+    {
+      name: 'save',
+      title: 'Save',
+      type: 'array',
+      of: [{type: 'reference', to: [{type: 'save'}]}], // Allow references to "save" documents
+    },
     {name: 'comments', title: 'Comments', type: 'array', of: [{type: 'comment'}]},
   ],
 }

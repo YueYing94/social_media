@@ -5,25 +5,24 @@ import shareVideo from "../assets/share.mp4";
 import logo from "../assets/logowhite.png";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { GoogleLogin, GoogleLogout } from "@react-oauth/google";
-import jwt_decode from 'jwt-decode'
-import { client } from '../client'
+import jwt_decode from "jwt-decode";
+import { client } from "../client";
 
 const Login = () => {
-  const navigate = useNavigate()
-  const responseGoogle=(response)=>{
-    const decoded = jwt_decode(response.credential)
-    console.log(decoded)
-    const { name, picture, sub } = decoded
+  const navigate = useNavigate();
+  const responseGoogle = (response) => {
+    const decoded = jwt_decode(response.credential);
+    console.log(decoded);
+    const { name, picture, sub } = decoded;
     const doc = {
       _id: sub,
-      _type: 'user',
+      _type: "user",
       userName: name,
       image: picture,
-    }
-    localStorage.setItem('user', JSON.stringify(doc))
-    navigate('/', { replace: true });
-    // client.createIfNotExists(doc).then(()=>navigate('/', { replace: true }))
-  }
+    };
+    localStorage.setItem("user", JSON.stringify(doc));
+    navigate("/", { replace: true });
+  };
   return (
     <div className="flex justify-start items-center flex-col h-screen">
       <div className="relative w-full h-full">
@@ -59,7 +58,7 @@ const Login = () => {
             )}
             onSuccess={responseGoogle}
             onFailure={responseGoogle}
-            cookiePolicy='single_host_origin'
+            cookiePolicy="single_host_origin"
           />
         </div>
       </div>
